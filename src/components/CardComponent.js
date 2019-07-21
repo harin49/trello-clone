@@ -22,14 +22,15 @@ const useStyles = makeStyles({
   }
 });
 
-export const CardComponent = () => {
+export const CardComponent = props => {
   const classes = useStyles();
+  console.log(props);
   return (
     <Card className={classes.card}>
       <ButtonBase className={classes.cardButtonBase} onClick={() => console.log("hi")}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-            This is a Trello clone example
+            {props.card.cardDescription}
           </Typography>
         </CardContent>
       </ButtonBase>

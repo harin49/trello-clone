@@ -1,5 +1,5 @@
 import React from "react";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -12,7 +12,7 @@ export const IconMenuRenderer = props => {
   return (
     <div>
       <IconButton onClick={handleClick}>
-        <MoreVertIcon />
+        <MoreHorizIcon />
       </IconButton>
       <Menu
         id="long-menu"

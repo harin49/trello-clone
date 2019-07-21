@@ -1,18 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import ListComponent from "../components/ListComponent";
-import * as listActions from "../actions/listActions";
+import { CardComponent } from "../components/CardComponent";
 import * as cardActions from "../actions/cardActions";
-import "../styles/listStyles.scss";
 
-class ListContainer extends Component {
+import "../styles/cardStyles.scss";
+
+class CardContainer extends Component {
+  filterCards = () => {
+    const filteredCards = this.props.allCards.filter(card => {
+      return card.listId === this.props.listId;
+    });
+    return filteredCards;
+  };
+
   render() {
-    const { allLists } = this.props;
     return (
-      <div className="list-component-container">
-        {allLists.map(list => {
-          return <ListComponent {...this.props} list={list} key={list.id} />;
+      <div className="card-component-container">
+        {this.filterCards().map(card => {
+          return <CardComponent {...this.props} card={card} key={card.cardId} />;
         })}
       </div>
     );
@@ -21,7 +27,6 @@ class ListContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    allLists: state.listReducer.lists,
     allCards: state.cardReducer.cards
   };
 };
@@ -29,7 +34,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      addLists: listActions.addLists,
       addCards: cardActions.addCards
     },
     dispatch
@@ -38,4 +42,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListContainer);
+)(CardContainer);

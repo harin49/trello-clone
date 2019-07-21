@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import ListContainer from "./containers/ListContainer";
 import AppHeader from "./components/AppHeader";
 import * as listActions from "./actions/listActions";
+import CardModal from "./components/CardModal";
 
 function App(props) {
   return (

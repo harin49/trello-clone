@@ -5,6 +5,11 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import { CardComponent } from "./CardComponent";
 import { IconMenuRenderer } from "./IconMenuRenderer";
 import { DialogComponent } from "./DialogComponent";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
+import { Add } from "@material-ui/icons";
+import CardModal from "./CardModal";
+import CardContainer from "../containers/CardContainer";
 
 const useStyles = {
   listRoot: {
@@ -15,6 +20,17 @@ const useStyles = {
     borderRadius: "5px",
     padding: "10px",
     overflowY: "auto"
+  },
+  listButtonBase: {
+    display: "flex",
+    textAlign: "initial",
+    alignItems: "end",
+    justifyContent: "flex-start",
+    width: "100%",
+    marginTop: "15px"
+  },
+  svgIconRoot: {
+    marginRight: "15px"
   }
 };
 
@@ -36,7 +52,8 @@ class ListComponent extends Component {
       anchorEl: null,
       listName: "",
       modalOpen: false,
-      menuClickType: ""
+      menuClickType: "",
+      cardModalOpen: false
     };
   }
 
@@ -74,6 +91,18 @@ class ListComponent extends Component {
     });
   };
 
+  handleCardModalOpen = () => {
+    this.setState({
+      cardModalOpen: true
+    });
+  };
+
+  handleCardModalClose = () => {
+    this.setState({
+      cardModalOpen: false
+    });
+  };
+
   rand = () => {
     return Math.round(Math.random() * 20);
   };
@@ -98,8 +127,8 @@ class ListComponent extends Component {
   };
 
   render() {
-    const { classes, list } = this.props;
-    const { anchorEl, modalOpen, listName, menuClickType } = this.state;
+    const { classes, list, addCards, allCards } = this.props;
+    const { anchorEl, modalOpen, listName, menuClickType, cardModalOpen } = this.state;
     return (
       <div>
         <List className={classes.listRoot}>
@@ -113,8 +142,13 @@ class ListComponent extends Component {
               handleMenuSelect={this.handleMenuSelect}
             />
           </ListItem>
-          <CardComponent />
-          <CardComponent />
+          <CardContainer listId={list.id} />
+          <ButtonBase className={classes.listButtonBase} onClick={this.handleCardModalOpen}>
+            <Add className={classes.svgIconRoot} />
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Add Card
+            </Typography>
+          </ButtonBase>
         </List>
         <DialogComponent
           open={modalOpen}
@@ -126,6 +160,13 @@ class ListComponent extends Component {
           }
           textValue={listName}
           buttonActionLabel={menuClickType === "add" ? "Create" : "Delete"}
+        />
+        <CardModal
+          open={cardModalOpen}
+          handleCardModalClose={this.handleCardModalClose}
+          listId={list.id}
+          addCards={addCards}
+          allCards={allCards}
         />
       </div>
     );
