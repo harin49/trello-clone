@@ -71,16 +71,16 @@ class AppHeader extends Component {
     return (
       <AppBar className={classes.root} position="static"> 
       <div>
-      <a href="https://github.com/harinarayanan-gooner" target="_blank">
+      <a href="https://github.com/harinarayanan-gooner" target="_blank" rel="noopener noreferrer">
         <Github className="svg-class"/>
         </a>
-      <a href="https://www.linkedin.com/in/hari-narayanan-44847011b/" target="_blank">
+      <a href="https://www.linkedin.com/in/hari-narayanan-44847011b/" target="_blank" rel="noopener noreferrer">
         <Linkedin className="svg-class"/>
       </a>
-      <a href="https://twitter.com/harithegooner" target="_blank">
+      <a href="https://twitter.com/harithegooner" target="_blank" rel="noopener noreferrer">
         <Twitter className="svg-class"/>
       </a>
-      <a href="https://codesandbox.io/u/harinarayanan-gooner" target="_blank">
+      <a href="https://codesandbox.io/u/harinarayanan-gooner" rel="noopener noreferrer" target="_blank">
         <CodeSandBox className="svg-class"/>
       </a>
       </div>

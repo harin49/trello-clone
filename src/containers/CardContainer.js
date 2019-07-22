@@ -7,6 +7,16 @@ import * as cardActions from "../actions/cardActions";
 import "../styles/cardStyles.scss";
 
 class CardContainer extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={
+      cardModalOpen:false,
+      chosenCard:"",
+    }
+  }
+
+
   filterCards = () => {
     const filteredCards = this.props.allCards.filter(card => {
       return card.listId === this.props.listId;
@@ -14,11 +24,39 @@ class CardContainer extends Component {
     return filteredCards;
   };
 
+  handleCardModalOpen = (cardId) =>{
+    if(cardId){
+      let chosenCard = this.props.allCards.filter(card =>{
+        return card.cardId === cardId
+      });
+      this.setState({
+        chosenCard:chosenCard
+      })
+    }
+    this.setState({
+      cardModalOpen:true
+    })
+  }
+
+  handleCardModalClose = () =>{
+    this.setState({
+      cardModalOpen:false,
+      chosenCard:""
+    })
+  }
+
   render() {
     return (
       <div className="card-component-container">
         {this.filterCards().map(card => {
-          return <CardComponent {...this.props} card={card} key={card.cardId} />;
+          return <CardComponent {...this.props} 
+          card={card}
+          key={card.cardId} 
+          open={this.state.cardModalOpen}
+          handleCardModalClose={this.handleCardModalClose}
+          handleCardModalOpen={this.handleCardModalOpen}
+          chosenCard = {this.state.chosenCard}
+          />;
         })}
       </div>
     );
@@ -39,6 +77,7 @@ const mapDispatchToProps = dispatch => {
     dispatch
   );
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { makeStyles } from "@material-ui/styles";
+import CardModal from './CardModal';
 
 const useStyles = makeStyles({
   card: {
@@ -22,12 +23,15 @@ const useStyles = makeStyles({
   }
 });
 
+
 export const CardComponent = props => {
   const classes = useStyles();
   console.log(props);
   return (
-    <Card className={classes.card}>
-      <ButtonBase className={classes.cardButtonBase} onClick={() => console.log("hi")}>
+    <div>
+      <Card className={classes.card}>
+      <ButtonBase className={classes.cardButtonBase} onClick={()=>
+        props.handleCardModalOpen(props.card.cardId)}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
             {props.card.cardDescription}
@@ -35,5 +39,16 @@ export const CardComponent = props => {
         </CardContent>
       </ButtonBase>
     </Card>
+    {
+      props.open && <CardModal
+      open={props.open}
+      handleCardModalClose={props.handleCardModalClose}
+      addCards={props.addCards}
+      allCards={props.allCards}
+      listId={props.card.listId}
+      card={props.chosenCard ? props.chosenCard[0]:props.card}
+    />
+    }
+    </div>
   );
 };

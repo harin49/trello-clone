@@ -48,7 +48,7 @@ class CardModal extends Component {
       cardTitle: this.props.card ? this.props.card.cardTitle : "",
       cardDescription: this.props.card ? this.props.card.cardDescription : "",
       currentComment: "",
-      commentList: this.props.card ? this.props.card.cardComments : []
+      commentList: this.props.card ? this.props.card.comment : []
     };
   }
 
@@ -86,7 +86,20 @@ class CardModal extends Component {
     return Math.round(Math.random() * 20);
   };
 
-  handleSave = cardId => {
+  clearState=()=>{
+    this.setState({
+      cardTitle:"",
+      cardDescription: "",
+      currentComment: "",
+      commentList:[]
+    })
+  }
+  
+  handleModalClose = async() =>{
+    await this.props.handleCardModalClose();
+    this.clearState();
+  }
+   handleSave = async cardId => {
     const { cardTitle, cardDescription, commentList } = this.state;
     const listId = this.props.listId;
     const cardObj = {
@@ -97,16 +110,20 @@ class CardModal extends Component {
       comment: commentList
     };
 
-    this.props.addCards([...this.props.allCards, cardObj]);
-    this.props.handleCardModalClose();
+    await this.props.addCards([...this.props.allCards, cardObj]);
+    await this.props.handleCardModalClose();
+    this.clearState();
+
   };
 
   render() {
-    const { classes, open, handleCardModalClose } = this.props;
+    const { classes, open } = this.props;
     const { cardTitle, cardDescription, currentComment, commentList } = this.state;
     const cardId = `${cardTitle.replace(/\s/g, "")}-${this.rand()}`;
+    console.log(this.props, "props");
+    console.log(this.state, "state");
     return (
-      <Modal open={open} onClose={handleCardModalClose}>
+      <Modal open={open} onClose={this.handleModalClose}>
         <div className={classes.paper}>
           <div className="card-modal-title">
             <Subtitles />
@@ -114,6 +131,7 @@ class CardModal extends Component {
               id="outlined-cardTitle"
               className={classes.textField}
               name={cardTitle}
+              value={cardTitle}
               placeholder="Enter Title"
               margin="normal"
               variant="outlined"
@@ -138,6 +156,7 @@ class CardModal extends Component {
               id="outlined-cardDescription"
               className={classes.textField}
               name={cardDescription}
+              value={cardDescription}
               placeholder="Add a more detailed description..."
               margin="normal"
               variant="outlined"
@@ -202,7 +221,7 @@ class CardModal extends Component {
               })}
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button onClick={handleCardModalClose} color="secondary">
+            <Button onClick={this.handleModalClose} color="secondary">
               Cancel
             </Button>
             <Button onClick={() => this.handleSave(cardId)} color="primary">
