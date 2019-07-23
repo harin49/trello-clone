@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { AppBar } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import IconButton from "@material-ui/core/IconButton";
 import { DialogComponent } from "./DialogComponent";
 import Button from "@material-ui/core/Button";
 import { ReactComponent as Github } from "../utils/github.svg";
 import { ReactComponent as Linkedin } from "../utils/linkedin.svg";
 import { ReactComponent as Twitter } from "../utils/twitter.svg";
 import { ReactComponent as CodeSandBox } from "../utils/codesandbox.svg";
+import { rand } from "../utils";
 import "../styles/appHeader.scss";
 
 const useStyles = {
@@ -44,7 +44,10 @@ class AppHeader extends Component {
 
   handleCreate = () => {
     const { listName } = this.state;
-    const id = `${this.state.listName.replace(/\s/g, "")}-${this.rand()}`;
+    const id = `${this.state.listName.replace(/\s/g, "")}-${rand()}`; // trim  whitespaces for id
+
+    // structure of lists to be stored
+
     const listObj = {
       listName,
       id
@@ -57,10 +60,6 @@ class AppHeader extends Component {
     this.setState({
       listName: event.target.value
     });
-  };
-
-  rand = () => {
-    return Math.round(Math.random() * 20);
   };
 
   render() {

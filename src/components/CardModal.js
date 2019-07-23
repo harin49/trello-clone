@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { Subtitles, Description, Comment } from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
+import { rand } from "../utils";
 
 import "../styles/cardModal.scss";
 
@@ -71,7 +71,7 @@ class CardModal extends Component {
   };
 
   addComment = cardId => {
-    const { currentComment } = this.state;
+    const { currentComment } = this.state; // structure for cards to be added to state
     const commentObj = {
       cardId,
       comment: currentComment
@@ -80,10 +80,6 @@ class CardModal extends Component {
     this.setState({
       commentList: [...this.state.commentList, commentObj]
     });
-  };
-
-  rand = () => {
-    return Math.round(Math.random() * 20);
   };
 
   clearState = () => {
@@ -99,6 +95,7 @@ class CardModal extends Component {
     await this.props.handleCardModalClose();
     this.clearState();
   };
+
   handleSave = async cardId => {
     const { cardTitle, cardDescription, commentList } = this.state;
     const listId = this.props.listId;
@@ -116,17 +113,17 @@ class CardModal extends Component {
   };
 
   render() {
-    const { classes, open } = this.props;
+    const { open } = this.props;
     const { cardTitle, cardDescription, currentComment, commentList } = this.state;
-    const cardId = `${cardTitle.replace(/\s/g, "")}-${this.rand()}`;
+    const cardId = `${cardTitle.replace(/\s/g, "")}-${rand()}`;
     return (
       <Modal open={open} onClose={this.handleModalClose}>
-        <div className={classes.paper}>
+        <div style={useStyles.paper}>
           <div className="card-modal-title">
             <Subtitles />
             <TextField
               id="outlined-cardTitle"
-              className={classes.textField}
+              style={useStyles.textField}
               name={cardTitle}
               value={cardTitle}
               placeholder="Enter Title"
@@ -134,9 +131,9 @@ class CardModal extends Component {
               variant="outlined"
               InputProps={{
                 classes: {
-                  root: classes.outline,
-                  notchedOutline: classes.notchedOutline,
-                  input: classes.input
+                  root: useStyles.outline,
+                  notchedOutline: useStyles.notchedOutline,
+                  input: useStyles.input
                 }
               }}
               onChange={e => this.handleTitleTextFieldChange(e)}
@@ -151,7 +148,7 @@ class CardModal extends Component {
             </div>
             <TextField
               id="outlined-cardDescription"
-              className={classes.textField}
+              style={useStyles.textField}
               name={cardDescription}
               value={cardDescription}
               placeholder="Add a more detailed description..."
@@ -159,8 +156,8 @@ class CardModal extends Component {
               variant="outlined"
               InputProps={{
                 classes: {
-                  root: classes.outline,
-                  input: classes.input
+                  root: useStyles.outline,
+                  input: useStyles.input
                 }
               }}
               multiline={true}
@@ -176,15 +173,15 @@ class CardModal extends Component {
             </div>
             <TextField
               id="outlined-cardComments"
-              className={classes.textField}
+              style={useStyles.textField}
               name={currentComment}
               placeholder="Add a more detailed description..."
               margin="normal"
               variant="outlined"
               InputProps={{
                 classes: {
-                  root: classes.outline,
-                  input: classes.input
+                  root: useStyles.outline,
+                  input: useStyles.input
                 }
               }}
               multiline={true}
@@ -231,4 +228,4 @@ class CardModal extends Component {
   }
 }
 
-export default withStyles(useStyles)(CardModal);
+export default CardModal;

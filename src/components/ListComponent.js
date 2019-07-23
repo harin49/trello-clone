@@ -9,6 +9,7 @@ import { Add } from "@material-ui/icons";
 import CardModal from "./CardModal";
 import CardContainer from "../containers/CardContainer";
 import { Droppable } from "react-beautiful-dnd";
+import { options, rand } from "../utils";
 
 const style = {
   listRoot: {
@@ -32,17 +33,6 @@ const style = {
     marginRight: "15px"
   }
 };
-
-const options = [
-  {
-    label: "Add List",
-    type: "add"
-  },
-  {
-    label: "Delete List",
-    type: "delete"
-  }
-];
 
 class ListComponent extends Component {
   constructor(props) {
@@ -102,13 +92,9 @@ class ListComponent extends Component {
     });
   };
 
-  rand = () => {
-    return Math.round(Math.random() * 20);
-  };
-
   handleCreate = () => {
     const { listName } = this.state;
-    const id = `${this.state.listName.replace(/\s/g, "")}-${this.rand()}`;
+    const id = `${this.state.listName.replace(/\s/g, "")}-${rand()}`;
     const listObj = {
       listName,
       id
