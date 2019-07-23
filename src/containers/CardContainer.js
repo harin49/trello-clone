@@ -7,15 +7,13 @@ import * as cardActions from "../actions/cardActions";
 import "../styles/cardStyles.scss";
 
 class CardContainer extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      cardModalOpen:false,
-      chosenCard:"",
-    }
+    this.state = {
+      cardModalOpen: false,
+      chosenCard: ""
+    };
   }
-
 
   filterCards = () => {
     const filteredCards = this.props.allCards.filter(card => {
@@ -24,39 +22,43 @@ class CardContainer extends Component {
     return filteredCards;
   };
 
-  handleCardModalOpen = (cardId) =>{
-    if(cardId){
-      let chosenCard = this.props.allCards.filter(card =>{
-        return card.cardId === cardId
+  handleCardModalOpen = cardId => {
+    if (cardId) {
+      let chosenCard = this.props.allCards.filter(card => {
+        return card.cardId === cardId;
       });
       this.setState({
-        chosenCard:chosenCard
-      })
+        chosenCard: chosenCard
+      });
     }
     this.setState({
-      cardModalOpen:true
-    })
-  }
+      cardModalOpen: true
+    });
+  };
 
-  handleCardModalClose = () =>{
+  handleCardModalClose = () => {
     this.setState({
-      cardModalOpen:false,
-      chosenCard:""
-    })
-  }
+      cardModalOpen: false,
+      chosenCard: ""
+    });
+  };
 
   render() {
     return (
       <div className="card-component-container">
-        {this.filterCards().map(card => {
-          return <CardComponent {...this.props} 
-          card={card}
-          key={card.cardId} 
-          open={this.state.cardModalOpen}
-          handleCardModalClose={this.handleCardModalClose}
-          handleCardModalOpen={this.handleCardModalOpen}
-          chosenCard = {this.state.chosenCard}
-          />;
+        {this.filterCards().map((card, index) => {
+          return (
+            <CardComponent
+              {...this.props}
+              card={card}
+              key={card.cardId}
+              index={index}
+              open={this.state.cardModalOpen}
+              handleCardModalClose={this.handleCardModalClose}
+              handleCardModalOpen={this.handleCardModalOpen}
+              chosenCard={this.state.chosenCard}
+            />
+          );
         })}
       </div>
     );

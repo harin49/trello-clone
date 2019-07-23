@@ -86,20 +86,20 @@ class CardModal extends Component {
     return Math.round(Math.random() * 20);
   };
 
-  clearState=()=>{
+  clearState = () => {
     this.setState({
-      cardTitle:"",
+      cardTitle: "",
       cardDescription: "",
       currentComment: "",
-      commentList:[]
-    })
-  }
-  
-  handleModalClose = async() =>{
+      commentList: []
+    });
+  };
+
+  handleModalClose = async () => {
     await this.props.handleCardModalClose();
     this.clearState();
-  }
-   handleSave = async cardId => {
+  };
+  handleSave = async cardId => {
     const { cardTitle, cardDescription, commentList } = this.state;
     const listId = this.props.listId;
     const cardObj = {
@@ -113,15 +113,12 @@ class CardModal extends Component {
     await this.props.addCards([...this.props.allCards, cardObj]);
     await this.props.handleCardModalClose();
     this.clearState();
-
   };
 
   render() {
     const { classes, open } = this.props;
     const { cardTitle, cardDescription, currentComment, commentList } = this.state;
     const cardId = `${cardTitle.replace(/\s/g, "")}-${this.rand()}`;
-    console.log(this.props, "props");
-    console.log(this.state, "state");
     return (
       <Modal open={open} onClose={this.handleModalClose}>
         <div className={classes.paper}>

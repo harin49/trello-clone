@@ -3,10 +3,10 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import { makeStyles } from "@material-ui/styles";
-import CardModal from './CardModal';
+import CardModal from "./CardModal";
+import { Draggable } from "react-beautiful-dnd";
 
-const useStyles = makeStyles({
+const useStyles = {
   card: {
     width: 275,
     borderRadius: "5px",
@@ -21,34 +21,37 @@ const useStyles = makeStyles({
     textAlign: "initial",
     width: "100%"
   }
-});
-
+};
 
 export const CardComponent = props => {
-  const classes = useStyles();
-  console.log(props);
   return (
-    <div>
-      <Card className={classes.card}>
-      <ButtonBase className={classes.cardButtonBase} onClick={()=>
-        props.handleCardModalOpen(props.card.cardId)}>
-        <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            {props.card.cardDescription}
-          </Typography>
-        </CardContent>
-      </ButtonBase>
-    </Card>
-    {
-      props.open && <CardModal
-      open={props.open}
-      handleCardModalClose={props.handleCardModalClose}
-      addCards={props.addCards}
-      allCards={props.allCards}
-      listId={props.card.listId}
-      card={props.chosenCard ? props.chosenCard[0]:props.card}
-    />
-    }
-    </div>
+    <Draggable draggableId={props.card.cardId} index={props.index}>
+      {provided => (
+        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+          <Card style={useStyles.card}>
+            <ButtonBase
+              style={useStyles.cardButtonBase}
+              onClick={() => props.handleCardModalOpen(props.card.cardId)}
+            >
+              <CardContent>
+                <Typography style={useStyles.title} color="textSecondary" gutterBottom>
+                  {props.card.cardDescription}
+                </Typography>
+              </CardContent>
+            </ButtonBase>
+          </Card>
+          {props.open && (
+            <CardModal
+              open={props.open}
+              handleCardModalClose={props.handleCardModalClose}
+              addCards={props.addCards}
+              allCards={props.allCards}
+              listId={props.card.listId}
+              card={props.chosenCard ? props.chosenCard[0] : props.card}
+            />
+          )}
+        </div>
+      )}
+    </Draggable>
   );
 };
