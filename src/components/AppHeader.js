@@ -93,7 +93,15 @@ class AppHeader extends Component {
             <CodeSandBox className="svg-class" />
           </a>
         </div>
-        <span>Trello-Clone</span>
+        <span>
+          <a 
+          style={{color:"#fafafa", textDecoration:"none"}}
+           href="https://github.com/harinarayanan-gooner/trello-clone"
+           rel="noopener noreferrer"
+           target="_blank">
+            Trello-Clone
+            </a>
+          </span>
         <div>
           <Button onClick={this.handleClick}>
             <Add style={{ marginRight: "5px" }} />
